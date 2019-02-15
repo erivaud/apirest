@@ -1,24 +1,22 @@
 package com.audiolibrary.rpa.apirest.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Artist {
-
-    //@OneToMany(mappedBy = "artist", fetch = FetchType.EAGER)
-    //@JsonIgnoreProperties("artist")
-    //private Set<Album> albums = new HashSet<>();
-    //private List<Album> albums;
+public class Artist implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
     public String name;
 
+    @OneToMany(mappedBy = "artist", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("artist")
+    private List<Album> albums;
 
 
     public Artist() {
@@ -51,5 +49,13 @@ public class Artist {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(List<Album> albums) {
+        this.albums = albums;
     }
 }
